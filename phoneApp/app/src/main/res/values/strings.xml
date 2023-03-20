@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Late Scan</string>
+    <string name="title_activity_successful">SuccessfulActivity</string>
 </resources>
