@@ -1,4 +1,10 @@
 <resources>
-    <string name="app_name">Late Scan</string>
+    <string name="app_name">Scan Tardies</string>
     <string name="title_activity_successful">SuccessfulActivity</string>
+    <string name="backBttnText">Back</string>
+    <string name="student_informationText">Student Information:</string>
+    <string name="nameText">Name</string>
+    <string name="sectionText">Section</string>
+    <string name="insertingDataText">Once record is uploaded, tap Back.</string>
+    <string name="LRNText">LRN</string>
 </resources>

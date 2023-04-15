@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.app.ActivityCompat
@@ -13,7 +14,16 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.gson.JsonSyntaxException
 
+/**
+ * @author JUAN MIGUEL L. VILLEGAS
+ *
+ * DO NOT REPRODUCE THE PROGRAM IN ANY FORM.
+ * all rights reserved, 2023.
+ */
 class MainActivity : ComponentActivity() {
 
     private lateinit var codescanner: CodeScanner
@@ -39,22 +49,38 @@ class MainActivity : ComponentActivity() {
         codescanner.formats = CodeScanner.TWO_DIMENSIONAL_FORMATS
 
         codescanner.autoFocusMode = AutoFocusMode.SAFE
-        codescanner.scanMode = ScanMode.CONTINUOUS // TODO: change to SINGLE later
+        codescanner.scanMode = ScanMode.CONTINUOUS
         codescanner.isAutoFocusEnabled = true
         codescanner.isFlashEnabled = false
 
         codescanner.decodeCallback = DecodeCallback {
             val decryptedString: String? = decryptWithAES(SECRET_KEY, it.text)
             if ((decryptedString != null) && !decryptedString[0].isDigit()) {
-                runOnUiThread {
-                    Toast.makeText(this, "$decryptedString", Toast.LENGTH_SHORT).show()
+                try {
+                    val deserializedMap: Map<String, String> = Gson().fromJson(
+                        decryptedString,
+                        object : TypeToken<Map<String, String>>() {}.type
+                    )
+
+                    val intent = Intent(this, SuccessfulActivity::class.java)
+                    intent.putExtra("name", deserializedMap.getValue("Name"))
+                    intent.putExtra("section", deserializedMap.getValue("Section"))
+                    intent.putExtra("lrn", deserializedMap.getValue("LRN"))
+                    startActivity(intent)
+                } catch (jsex: JsonSyntaxException) {
+                    runOnUiThread {
+                        Toast.makeText(this, "Not valid JSON!", Toast.LENGTH_SHORT).show()
+                    }
+                    Log.w("JSON Parse", "Not valid JSON: $jsex")
+                } catch (nseex: NoSuchElementException) {
+                    runOnUiThread {
+                        Toast.makeText(this, "Not valid JSON fields!", Toast.LENGTH_SHORT).show()
+                    }
+                    Log.w("Map Field", "Not valid fields: $nseex")
                 }
-                val intent = Intent(this, SuccessfulActivity::class.java)
-                intent.putExtra("decryptedString", decryptedString)
-                startActivity(intent)
             } else {
                 runOnUiThread {
-                    Toast.makeText(this, "Not valid!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Not valid QR! Text:\n${it.text}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -63,7 +89,7 @@ class MainActivity : ComponentActivity() {
             codescanner.startPreview()
         }
     }
-
+    
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

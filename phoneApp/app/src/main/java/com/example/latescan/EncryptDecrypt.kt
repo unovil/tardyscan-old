@@ -13,6 +13,10 @@ import javax.crypto.spec.SecretKeySpec
 // write your SECRET_KEY here.
 // val SECRET_KEY = ""
 
+// write your SUPABASE_URL and SUPABASE_KEY here.
+// val SUPABASE_URL = ""
+// val SUPABASE_KEY = ""
+
 fun decryptWithAES(key: String, strToDecrypt: String?): String? {
     Security.addProvider(BouncyCastleProvider())
     var keyBytes: ByteArray
