@@ -6,16 +6,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.view.isVisible
+import com.example.latescan.databinding.ActivitySuccessfulBinding
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
 import io.ktor.client.plugins.*
-import kotlinx.android.synthetic.main.activity_successful.*
 import kotlinx.coroutines.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toJavaInstant
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -23,9 +22,11 @@ import kotlinx.serialization.json.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val tardyListID = "tardy_datetimes"
-
 class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
+
+    companion object {
+        const val tardyListID = "tardy_datetimes"
+    }
 
     // initializes supabase connection
     private val client = createSupabaseClient(
@@ -42,21 +43,23 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
         val name: String,
         val section: String,
         @SerialName(tardyListID) @Contextual val tardyDateTimes: List<Instant>
-        )
+    )
 
+    private lateinit var binding: ActivitySuccessfulBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_successful)
+        binding = ActivitySuccessfulBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val timeInstantKotlin = Clock.System.now()
         val timeDate = Calendar.getInstance().apply { timeInMillis = timeInstantKotlin.toEpochMilliseconds() }.time
 
         // sets text
-        nameTextField.text = intent.getStringExtra("name")
-        sectionTextField.text = intent.getStringExtra("section")
-        lrnTextField.text = intent.getStringExtra("lrn")
-        successTextView.text = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(timeDate)
-        timeTextView.text = SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(timeDate)
+        binding.nameTextField.text = intent.getStringExtra("name")
+        binding.sectionTextField.text = intent.getStringExtra("section")
+        binding.lrnTextField.text = intent.getStringExtra("lrn")
+        binding.successTextView.text = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(timeDate)
+        binding.timeTextView.text = SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(timeDate)
 
         // continually tries to update or insert to supabase
         // if job is completed, enable button behavior
@@ -68,8 +71,8 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
                 runBlocking {
                     jobGet.join()
                     if (jobGet.isCompleted) {
-                        confirmButton.isVisible = true
-                        confirmButton.isEnabled = true
+                        binding.confirmButton.isVisible = true
+                        binding.confirmButton.isEnabled = true
                         isSuccessful = true
                     } else isSuccessful = false
                 }
@@ -103,7 +106,7 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
     }
 
-    suspend fun updateDatabase(timeInstant: Instant) {
+    private suspend fun updateDatabase(timeInstant: Instant) {
 
         return withContext(Dispatchers.IO) {
             // fetches data
@@ -149,7 +152,7 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
     // if clicked, exit activity
     override fun onClick(view: View?) {
-        if (view?.id == confirmButton.id) {
+        if (view?.id == binding.confirmButton.id) {
             finish()
         }
     }

@@ -7,4 +7,5 @@
     <string name="sectionText">Section</string>
     <string name="insertingDataText">Once record is uploaded, tap Back.</string>
     <string name="LRNText">LRN</string>
+    <string name="title_activity_scanner">ScannerActivity</string>
 </resources>
