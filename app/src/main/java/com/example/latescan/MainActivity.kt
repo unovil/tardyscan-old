@@ -1,5 +1,6 @@
 package com.example.latescan
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.example.latescan.databinding.ActivityMainBinding
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val intent = Intent(this, ScannerActivity::class.java)
+        startActivity(intent)
     }
-
 }

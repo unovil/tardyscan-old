@@ -34,8 +34,8 @@ class ScannerActivity : ComponentActivity() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 123)
-        }
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 123)
+            }
         else {
             startScanning()
         }

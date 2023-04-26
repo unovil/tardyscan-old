@@ -8,4 +8,6 @@
     <string name="insertingDataText">Once record is uploaded, tap Back.</string>
     <string name="LRNText">LRN</string>
     <string name="title_activity_scanner">ScannerActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
