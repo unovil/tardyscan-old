@@ -1,9 +1,9 @@
-package com.example.latescan
+package com.unovil.tardyscan
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.example.latescan.databinding.ActivityMainBinding
+import com.unovil.tardyscan.databinding.ActivityMainBinding
 
 /**
  * @author JUAN MIGUEL L. VILLEGAS

@@ -1,4 +1,4 @@
-package com.example.latescan.ui.theme
+package com.unovil.tardyscan.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

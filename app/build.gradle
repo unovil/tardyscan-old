@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.latescan'
+    namespace 'com.unovil.tardyscan'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.latescan"
+        applicationId "com.unovil.tardyscan"
         minSdk 23
         targetSdk 33
         versionCode 1

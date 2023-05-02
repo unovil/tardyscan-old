@@ -1,4 +1,4 @@
-package com.example.latescan.ui.theme
+package com.unovil.tardyscan.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

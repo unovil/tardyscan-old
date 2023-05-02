@@ -1,4 +1,4 @@
-package com.example.latescan
+package com.unovil.tardyscan
 
 import org.junit.Test
 

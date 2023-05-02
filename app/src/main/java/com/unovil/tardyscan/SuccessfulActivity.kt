@@ -1,4 +1,4 @@
-package com.example.latescan
+package com.unovil.tardyscan
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.view.isVisible
-import com.example.latescan.databinding.ActivitySuccessfulBinding
+import com.unovil.tardyscan.databinding.ActivitySuccessfulBinding
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.postgrest.Postgrest
@@ -21,6 +21,10 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
 import java.text.SimpleDateFormat
 import java.util.*
+
+import com.unovil.tardyscan.addrecord.SUPABASE_KEY
+import com.unovil.tardyscan.addrecord.SUPABASE_URL
+import com.unovil.tardyscan.addrecord.TABLE_NAME
 
 class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
@@ -96,6 +100,7 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
                 }
             } catch (hrex: HttpRequestException) {
                 val builder = AlertDialog.Builder(this)
+                // TODO: ADD BEHAVIOR TO OK BUTTON
                 builder
                     .setTitle("Internet problem")
                     .setMessage("You are not connected to the Internet. Relaunch the app with Internet.")

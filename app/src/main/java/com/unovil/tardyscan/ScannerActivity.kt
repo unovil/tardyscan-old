@@ -1,4 +1,4 @@
-package com.example.latescan
+package com.unovil.tardyscan
 
 import android.Manifest
 import android.content.Intent
@@ -17,6 +17,8 @@ import com.budiyev.android.codescanner.ScanMode
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.JsonSyntaxException
+
+import com.unovil.tardyscan.addrecord.SECRET_KEY
 
 /**
  * @author JUAN MIGUEL L. VILLEGAS
@@ -63,9 +65,9 @@ class ScannerActivity : ComponentActivity() {
                     )
 
                     val intent = Intent(this, SuccessfulActivity::class.java)
-                    intent.putExtra("name", deserializedMap.getValue("Name"))
-                    intent.putExtra("section", deserializedMap.getValue("Section"))
-                    intent.putExtra("lrn", deserializedMap.getValue("LRN"))
+                    intent.putExtra("name", deserializedMap.getValue("Name").trim())
+                    intent.putExtra("section", deserializedMap.getValue("Section").trim())
+                    intent.putExtra("lrn", deserializedMap.getValue("LRN").trim())
                     startActivity(intent)
                 } catch (jsex: JsonSyntaxException) {
                     runOnUiThread {
