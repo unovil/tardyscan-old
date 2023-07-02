@@ -1,9 +1,9 @@
-package com.unovil.tardyscan
+package com.unovil.tardyscanner
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.unovil.tardyscan.databinding.ActivityMainBinding
+import com.unovil.tardyscanner.databinding.ActivityMainBinding
 
 /**
  * @author JUAN MIGUEL L. VILLEGAS

@@ -1,4 +1,4 @@
-package com.unovil.tardyscan
+package com.unovil.tardyscanner
 
 import org.junit.Test
 

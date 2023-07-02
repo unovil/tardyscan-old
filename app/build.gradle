@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.unovil.tardyscan'
+    namespace 'com.unovil.tardyscanner'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.unovil.tardyscan"
+        applicationId "com.unovil.tardyscanner"
         minSdk 23
         targetSdk 33
         versionCode 1
@@ -27,6 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
         }
     }
     compileOptions {

@@ -13,5 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/java/com/unovil/tardyscan/addrecord/DatabaseAdder.kt
-/app/src/main/java/com/unovil/tardyscan/addrecord/GeneratorQR.kt
+/app/src/main/java/com/unovil/tardyscanner/addrecord/DatabaseAdder.kt
+/app/src/main/java/com/unovil/tardyscanner/addrecord/GeneratorQR.kt
+/app/release/

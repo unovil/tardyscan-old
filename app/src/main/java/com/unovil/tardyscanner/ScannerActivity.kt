@@ -1,4 +1,4 @@
-package com.unovil.tardyscan
+package com.unovil.tardyscanner
 
 import android.Manifest
 import android.content.Intent
@@ -18,7 +18,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.JsonSyntaxException
 
-import com.unovil.tardyscan.addrecord.SECRET_KEY
+import com.unovil.tardyscanner.addrecord.SECRET_KEY
 
 /**
  * @author JUAN MIGUEL L. VILLEGAS

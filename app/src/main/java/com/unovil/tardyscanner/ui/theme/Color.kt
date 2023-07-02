@@ -1,4 +1,4 @@
-package com.unovil.tardyscan.ui.theme
+package com.unovil.tardyscanner.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

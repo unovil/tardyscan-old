@@ -1,4 +1,4 @@
-package com.unovil.tardyscan
+package com.unovil.tardyscanner
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.util.encoders.Base64

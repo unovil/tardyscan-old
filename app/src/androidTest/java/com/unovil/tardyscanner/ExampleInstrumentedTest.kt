@@ -1,4 +1,4 @@
-package com.unovil.tardyscan
+package com.unovil.tardyscanner
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
