@@ -17,6 +17,12 @@ There are a few reasons behind creating a project like this. Here are the top re
 * make a main page for the app
 * add authentication
 
-## Contributing
+## Contributing and Config
 
-stay tuned for this!
+To contribute, you can download the entire zip folder and set the following up:
+* Create a new `server_link.properties` file in the `app/res/raw` folder. This file should contain the following:
+```properties
+SECRET_KEY=<YOUR SECRET ENCRYPTION/DECRYPTION KEY HERE>
+SUPABASE_URL=<YOUR SUPABASE URL HERE>
+SUPABASE_KEY=<YOUR SUPABASE PUBLIC KEY HERE>
+```
