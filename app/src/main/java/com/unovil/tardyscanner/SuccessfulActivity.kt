@@ -22,9 +22,8 @@ import kotlinx.serialization.json.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-import com.unovil.tardyscanner.addrecord.SUPABASE_KEY
-import com.unovil.tardyscanner.addrecord.SUPABASE_URL
 import com.unovil.tardyscanner.addrecord.TABLE_NAME
+import io.github.jan.supabase.SupabaseClient
 
 class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
@@ -33,12 +32,7 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
     }
 
     // initializes supabase connection
-    private val client = createSupabaseClient(
-        supabaseUrl = SUPABASE_URL,
-        supabaseKey = SUPABASE_KEY
-    ) {
-        install(Postgrest)
-    }
+    private lateinit var client: SupabaseClient
 
     // format of Students table
     @Serializable
@@ -54,6 +48,13 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivitySuccessfulBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        client = createSupabaseClient(
+            supabaseUrl = intent.getStringExtra("SUPABASE_URL") ?: "",
+            supabaseKey = intent.getStringExtra("SUPABASE_KEY") ?: ""
+        ) {
+            install(Postgrest)
+        }
 
         val timeInstantKotlin = Clock.System.now()
         val timeDate = Calendar.getInstance().apply { timeInMillis = timeInstantKotlin.toEpochMilliseconds() }.time
@@ -109,7 +110,7 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
                     // println(selectResult)
                     if (selectResult.body.toString().length == 2) { // no record yet
-                        val insertResult = client.postgrest[TABLE_NAME]
+                        client.postgrest[TABLE_NAME]
                             .insert(
                                 Tardy(
                                     intent.getStringExtra("lrn") ?: "default",
@@ -126,7 +127,7 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
                                 Json.decodeFromJsonElement<List<Instant>>(it)
                             }
                         // println(tardyList)
-                        val updateResult = client.postgrest[TABLE_NAME]
+                        client.postgrest[TABLE_NAME]
                             .update(
                                 {
                                     Tardy::tardyDateTimes setTo tardyList?.plusElement(timeInstant)

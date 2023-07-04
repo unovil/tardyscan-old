@@ -9,6 +9,10 @@ android {
     namespace 'com.unovil.tardyscanner'
     compileSdk 33
 
+    aaptOptions {
+        noCompress "properties"
+    }
+
     defaultConfig {
         applicationId "com.unovil.tardyscanner"
         minSdk 23

@@ -18,7 +18,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.JsonSyntaxException
 
-import com.unovil.tardyscanner.addrecord.SECRET_KEY
 
 /**
  * @author JUAN MIGUEL L. VILLEGAS
@@ -29,10 +28,13 @@ import com.unovil.tardyscanner.addrecord.SECRET_KEY
 class ScannerActivity : ComponentActivity() {
 
     private lateinit var codescanner: CodeScanner
+    private lateinit var secretKeyConst: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
+
+        secretKeyConst = intent.getStringExtra("SECRET_KEY") ?: ""
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_DENIED) {
@@ -56,7 +58,7 @@ class ScannerActivity : ComponentActivity() {
         codescanner.isFlashEnabled = false
 
         codescanner.decodeCallback = DecodeCallback {
-            val decryptedString: String? = decryptWithAES(SECRET_KEY, it.text)
+            val decryptedString: String? = decryptWithAES(secretKeyConst, it.text)
             if ((decryptedString != null) && !decryptedString[0].isDigit()) {
                 try {
                     val deserializedMap: Map<String, String> = Gson().fromJson(
@@ -68,6 +70,9 @@ class ScannerActivity : ComponentActivity() {
                     intent.putExtra("name", deserializedMap.getValue("Name").trim())
                     intent.putExtra("section", deserializedMap.getValue("Section").trim())
                     intent.putExtra("lrn", deserializedMap.getValue("LRN").trim())
+                    intent.putExtra("SECRET_KEY", properties.getProperty("SECRET_KEY"))
+                    intent.putExtra("SUPABASE_URL", properties.getProperty("SUPABASE_URL"))
+                    intent.putExtra("SUPABASE_KEY", properties.getProperty("SUPABASE_KEY"))
                     startActivity(intent)
                 } catch (jsex: JsonSyntaxException) {
                     runOnUiThread {
