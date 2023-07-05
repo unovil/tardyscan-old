@@ -1,12 +1,15 @@
 package com.unovil.tardyscanner
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.view.isVisible
+import com.unovil.tardyscanner.addrecord.TABLE_NAME
 import com.unovil.tardyscanner.databinding.ActivitySuccessfulBinding
+import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.postgrest.Postgrest
@@ -22,8 +25,6 @@ import kotlinx.serialization.json.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-import com.unovil.tardyscanner.addrecord.TABLE_NAME
-import io.github.jan.supabase.SupabaseClient
 
 class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
@@ -58,6 +59,10 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
         val timeInstantKotlin = Clock.System.now()
         val timeDate = Calendar.getInstance().apply { timeInMillis = timeInstantKotlin.toEpochMilliseconds() }.time
+
+        // sets school logo
+        binding.logoImageView.contentDescription = "Pasig City Science High School" + " logo"
+        binding.logoImageView.setImageResource(R.drawable.school_image)
 
         // sets text
         binding.nameTextField.text = intent.getStringExtra("name")
@@ -154,7 +159,10 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
                             .setTitle("Internet problem")
                             .setMessage("You are not connected to the Internet. Relaunch the app with Internet.")
                             .setPositiveButton("OK") { _, _ ->
-                                android.os.Process.killProcess(android.os.Process.myPid()) }
+                                val intent = Intent(this@SuccessfulActivity, MainActivity::class.java)
+                                this@SuccessfulActivity.startActivity(intent)
+                                finishAffinity()
+                            }
                             .show()
                     }
                     break
