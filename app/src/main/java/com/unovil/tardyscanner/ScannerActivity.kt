@@ -4,7 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+// import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.app.ActivityCompat
@@ -17,6 +18,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.JsonSyntaxException
+import com.unovil.tardyscanner.databinding.ActivityScannerBinding
 
 
 /**
@@ -25,14 +27,16 @@ import com.google.gson.JsonSyntaxException
  * DO NOT REPRODUCE THE PROGRAM IN ANY FORM.
  * all rights reserved, 2023.
  */
-class ScannerActivity : ComponentActivity() {
+class ScannerActivity : ComponentActivity(), View.OnClickListener {
 
+    private lateinit var binding: ActivityScannerBinding
     private lateinit var codescanner: CodeScanner
     private lateinit var secretKeyConst: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scanner)
+        binding = ActivityScannerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         secretKeyConst = intent.getStringExtra("SECRET_KEY") ?: ""
 
@@ -46,7 +50,7 @@ class ScannerActivity : ComponentActivity() {
     }
 
     private fun startScanning() {
-        val scannerView: CodeScannerView = findViewById(R.id.scanner_view)
+        val scannerView: CodeScannerView = binding.scannerView
 
         codescanner = CodeScanner(this, scannerView)
         codescanner.camera = CodeScanner.CAMERA_BACK
@@ -78,12 +82,12 @@ class ScannerActivity : ComponentActivity() {
                     runOnUiThread {
                         Toast.makeText(this, "Not valid JSON!", Toast.LENGTH_SHORT).show()
                     }
-                    Log.w("JSON Parse", "Not valid JSON: $jsex")
+                    // Log.w("JSON Parse", "Not valid JSON: $jsex")
                 } catch (nseex: NoSuchElementException) {
                     runOnUiThread {
                         Toast.makeText(this, "Not valid JSON fields!", Toast.LENGTH_SHORT).show()
                     }
-                    Log.w("Map Field", "Not valid fields: $nseex")
+                    // Log.w("Map Field", "Not valid fields: $nseex")
                 }
             } else {
                 runOnUiThread {
@@ -128,5 +132,12 @@ class ScannerActivity : ComponentActivity() {
             codescanner.releaseResources()
         }
         super.onPause()
+    }
+
+    override fun onClick(view: View?) {
+        if (view?.id == binding.aboutButton.id) {
+            val intent = Intent(this, AboutActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

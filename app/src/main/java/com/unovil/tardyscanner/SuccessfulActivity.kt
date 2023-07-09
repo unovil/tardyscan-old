@@ -112,9 +112,9 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
                     // checks if record number is not 1.
                     // if true (it's 2), insert new record.
                     // if false (it's not 2), update current record.
-
                     // println(selectResult)
                     if (selectResult.body.toString().length == 2) { // no record yet
+                        /* TODO: Ask Miss if this is okay, or if I should just alert the user that the person doesn't exist yet */
                         client.postgrest[TABLE_NAME]
                             .insert(
                                 Tardy(
@@ -173,7 +173,7 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
 
     // if clicked, exit activity
     override fun onClick(view: View?) {
-        if (view?.id == binding.confirmButton.id) {
+        if (view?.id == R.id.confirmButton) {
             finish()
         }
     }

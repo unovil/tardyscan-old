@@ -5,9 +5,10 @@
     <string name="student_informationText">Student Information:</string>
     <string name="nameText">Name</string>
     <string name="sectionText">Section</string>
-    <string name="insertingDataText">Once record is uploaded, tap Back.</string>
+    <string name="insertingDataText">End of record.</string>
     <string name="LRNText">LRN</string>
     <string name="title_activity_scanner">ScannerActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_icon_text">About</string>
 </resources>
