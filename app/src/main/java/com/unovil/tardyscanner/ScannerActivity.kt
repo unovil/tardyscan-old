@@ -5,7 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-// import android.util.Log
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.app.ActivityCompat
@@ -82,17 +82,18 @@ class ScannerActivity : ComponentActivity(), View.OnClickListener {
                     runOnUiThread {
                         Toast.makeText(this, "Not valid JSON!", Toast.LENGTH_SHORT).show()
                     }
-                    // Log.w("JSON Parse", "Not valid JSON: $jsex")
+                    Log.w("ScannerActivity", "Not valid JSON: $jsex")
                 } catch (nseex: NoSuchElementException) {
                     runOnUiThread {
                         Toast.makeText(this, "Not valid JSON fields!", Toast.LENGTH_SHORT).show()
                     }
-                    // Log.w("Map Field", "Not valid fields: $nseex")
+                    Log.w("ScannerActivity", "Not valid fields: $nseex")
                 }
             } else {
                 runOnUiThread {
                     Toast.makeText(this, "Not valid QR! Text:\n${it.text}", Toast.LENGTH_SHORT).show()
                 }
+                Log.w("ScannerActivity", "Not valid QR: ${it.text}")
             }
         }
 

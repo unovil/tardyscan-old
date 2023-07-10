@@ -2,6 +2,7 @@ buildscript {
     ext {
         compose_ui_version = '1.4.0'
         kotlin_version = '1.8.0'
+        supabase_kt_version = '1.1.0'
     }
 
     dependencies {

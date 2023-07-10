@@ -1,7 +1,6 @@
 package com.unovil.tardyscanner
 
 import android.os.Bundle
-// import android.util.Log
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.core.text.*
