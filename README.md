@@ -8,7 +8,7 @@ This is an app that simply adds student records to a database and records their 
 
 There are a few reasons behind creating a project like this. Here are the top reasons:
 
-* I was approached by my Grade 9 Math teacher, saying that if I do this successfully, I would be exempted from written works for the rest of the SY.
+* I want to include this in my college apps.
 * I can (hopefully) get royalties when having this implemented at other local schools.
 
 ## Todos
