@@ -41,7 +41,14 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
     // initializes supabase connection
     private lateinit var client: SupabaseClient
 
-    // format of Students table
+    /**
+     * This is a serializable data class that holds the data to be inserted into the database, as
+     * required by the `supabase-kt` library.
+     * @param lrnId LRN ID
+     * @param name student name
+     * @param section student section
+     * @param tardyDateTimes list of [Instant] objects containing the date and time of tardiness
+     */
     @Serializable
     data class Tardy(
         @SerialName(LrnID) val lrnId: String,
@@ -50,6 +57,12 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
         @SerialName(tardyListID) @Contextual val tardyDateTimes: List<Instant>
     )
 
+    /**
+     * This is a simple data class that holds the response headers and body. This is used by
+     * the [insertData] and [updateData] functions.
+     * @param headers response headers
+     * @param body response body
+     */
     data class Response(val headers: Headers, val body: JsonElement?)
 
     private lateinit var binding: ActivitySuccessfulBinding
@@ -98,22 +111,26 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
                     isSuccessful = true
                 } else isSuccessful = false
             }
-            if (isSuccessful) {
-                break
-            } else {
-                runOnUiThread {
-                    Toast.makeText(
-                        this,
-                        "Something went wrong! Trying again...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                continue
+            if (isSuccessful) { break }
+            runOnUiThread {
+                Toast.makeText(
+                    this,
+                    "Something went wrong! Trying again...",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
-
     }
 
+    /**
+     * Updates the database. This function uses [withContext] to create a context-filled
+     * [CoroutineDispatcher] object. This fetches data from the database, and checks if the
+     * the response body is empty. If it is, it inserts a new record with [insertData]. If it is
+     * not, it updates the current record with [updateData]. This function also handles
+     * exceptions thrown by [insertData] and [updateData].
+     * @param timeInstant current time
+     * @return a context-filled CoroutineDispatcher object
+     */
     private suspend fun updateDatabase(timeInstant: Instant) {
         return withContext(Dispatchers.IO) {
             while (true) {
@@ -165,6 +182,16 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * Inserts data into the database if the record doesn't exist yet.
+     * Note that this function is used inside the [updateDatabase] function, which handles the
+     * exceptions thrown by this function.
+     * @see updateDatabase
+     * @param timeInstant current time
+     * @return [Response] object containing the headers and body of the request
+     * @exception HttpRequestTimeoutException thrown when the request times out
+     * @exception HttpRequestException thrown when the request fails
+     */
     private suspend fun insertData(timeInstant: Instant) : Response {
         /* TODO: Ask Miss if this is okay, or if I should just alert the user that the person doesn't exist yet */
         val insertResult = client.postgrest[TABLE_NAME]
@@ -180,6 +207,16 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
         return Response(insertResult.headers, insertResult.body)
     }
 
+    /**
+     * Updates data of an existing record in the database.
+     * Note that this function is used inside the [updateDatabase] function, which handles the
+     * exceptions thrown by this function.
+     * @see updateDatabase
+     * @param timeInstant current time
+     * @return [Response] object containing the headers and body of the request
+     * @exception HttpRequestTimeoutException thrown when the request times out
+     * @exception HttpRequestException thrown when the request fails
+     */
     private suspend fun updateData(timeInstant: Instant, selectResult: PostgrestResult) : Response {
         val tardyList =
             selectResult.body!!.jsonArray[0].jsonObject[tardyListID]?.let {
