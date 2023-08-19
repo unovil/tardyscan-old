@@ -11,10 +11,7 @@ import androidx.core.view.isVisible
 import com.unovil.tardyscanner.addrecord.TABLE_NAME
 import com.unovil.tardyscanner.databinding.ActivitySuccessfulBinding
 import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.HttpRequestException
-import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.PropertyConversionMethod
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.PostgrestResult
 import io.github.jan.supabase.postgrest.query.Returning
@@ -27,6 +24,9 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,7 +39,9 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
     }
 
     // initializes supabase connection
-    private lateinit var client: SupabaseClient
+    private val supabaseUrl: String by inject(named("supabaseUrl"))
+    private val supabaseKey: String by inject(named("supabaseKey"))
+    private val client: SupabaseClient by inject(named("supabaseClient")) { parametersOf(supabaseUrl, supabaseKey) }
 
     /**
      * This is a serializable data class that holds the data to be inserted into the database, as
@@ -70,15 +72,6 @@ class SuccessfulActivity : ComponentActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivitySuccessfulBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        client = createSupabaseClient(
-            supabaseUrl = intent.getStringExtra("SUPABASE_URL") ?: "",
-            supabaseKey = intent.getStringExtra("SUPABASE_KEY") ?: ""
-        ) {
-            install(Postgrest) {
-                propertyConversionMethod = PropertyConversionMethod.SERIAL_NAME
-            }
-        }
 
         val timeInstantKotlin = Clock.System.now()
         val timeDate = Calendar.getInstance()

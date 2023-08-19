@@ -16,3 +16,4 @@ local.properties
 /app/release/
 /app/src/main/res/raw/server_link.properties
 /app/src/main/java/com/unovil/tardyscanner/addrecord/
+/app/src/main/java/com/unovil/tardyscanner/koin/constantsModule.kt

@@ -19,6 +19,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.JsonSyntaxException
 import com.unovil.tardyscanner.databinding.ActivityScannerBinding
+import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 
 
 /**
@@ -31,14 +33,12 @@ class ScannerActivity : ComponentActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityScannerBinding
     private lateinit var codescanner: CodeScanner
-    private lateinit var secretKeyConst: String
+    private val secretKey: String by inject(named("secretKey"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        secretKeyConst = intent.getStringExtra("SECRET_KEY") ?: ""
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_DENIED) {
@@ -62,7 +62,7 @@ class ScannerActivity : ComponentActivity(), View.OnClickListener {
         codescanner.isFlashEnabled = false
 
         codescanner.decodeCallback = DecodeCallback {
-            val decryptedString: String? = decryptWithAES(secretKeyConst, it.text)
+            val decryptedString: String? = decryptWithAES(secretKey, it.text)
             if ((decryptedString != null) && !decryptedString[0].isDigit()) {
                 try {
                     val deserializedMap: Map<String, String> = Gson().fromJson(
@@ -74,9 +74,6 @@ class ScannerActivity : ComponentActivity(), View.OnClickListener {
                     intent.putExtra("name", deserializedMap.getValue("Name").trim())
                     intent.putExtra("section", deserializedMap.getValue("Section").trim())
                     intent.putExtra("lrn", deserializedMap.getValue("LRN").trim())
-                    intent.putExtra("SECRET_KEY", properties.getProperty("SECRET_KEY"))
-                    intent.putExtra("SUPABASE_URL", properties.getProperty("SUPABASE_URL"))
-                    intent.putExtra("SUPABASE_KEY", properties.getProperty("SUPABASE_KEY"))
                     startActivity(intent)
                 } catch (jsex: JsonSyntaxException) {
                     runOnUiThread {
