@@ -1,3 +1,13 @@
+# READ: DEPRECATED
+
+This project is now being archived by me. Disregard the README below it.
+
+I made this project as part of my requirement to fulfill a school project by me and my teacher. However, the project got cancelled due to unknown reasons, and I was forced to scrap it after months of hard work.
+
+This wasn't the end though. I still had the passion to continue this even without support from the school, just for the sake of making my very own application with some sense of function and quality. With this, I decided to archive this project and start again from scratch, because that was the only way I could ever get this done without parsing through files I barely remember anymore.
+
+Again, this project is being archived.
+
 # Tardy Scan - Android Port
 
 This project is currently in development, to be used (currently) at Pasig City Science High School.
